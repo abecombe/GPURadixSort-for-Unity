@@ -1,0 +1,26 @@
+﻿#pragma kernel CopySortBuffer
+#pragma kernel CopyScanBuffer
+
+#include "Assets/Packages/RadixSort/Resources/CustomDefinition.hlsl"
+
+StructuredBuffer<DATA_TYPE> sort_temp_buffer;
+RWStructuredBuffer<DATA_TYPE> sort_data_buffer;
+
+StructuredBuffer<uint> scan_temp_buffer;
+RWStructuredBuffer<uint> scan_data_buffer;
+
+int num_elements;
+
+[numthreads(1024, 1, 1)]
+void CopySortBuffer(int thread_id : SV_DispatchThreadID)
+{
+    if (thread_id < num_elements)
+        sort_data_buffer[thread_id] = sort_temp_buffer[thread_id];
+}
+
+[numthreads(1024, 1, 1)]
+void CopyScanBuffer(int thread_id : SV_DispatchThreadID)
+{
+    if (thread_id < num_elements)
+        scan_data_buffer[thread_id] = scan_temp_buffer[thread_id];
+}
