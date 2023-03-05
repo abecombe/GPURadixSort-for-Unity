@@ -8,6 +8,14 @@
 
 **No restrictions on input data type or size.**
 
+## Algorithmic complexity
+GPURadixSort has **`O(n * s * w)`** complexity  
+```text
+n : number of data
+s : size of data struct
+w : number of bits to sort
+```
+
 ## Usage
 ### Init
 ***C# code***
@@ -19,7 +27,8 @@ RadixSort<uint2> radixSort = new();
 #define DATA_TYPE uint2  // input data struct
 #define GET_KEY(s) s.x   // how to get the key-values used for sorting
 ```
-**`uint2` is an example of a data type & you can change it.**
+**`uint2` is an example of a data type & you can change it.**  
+**Note that the larger the data struct size, the longer it takes to sort.**
 
 ### Sort
 ```csharp

@@ -38,8 +38,9 @@ public class RadixSort<T>
     // Implementation of Paper "Fast 4-way parallel radix sorting on GPUs"
     // https://vgc.poly.edu/~csilva/papers/cgf.pdf
 
-    // GPURadixSort has O(n * w) complexity 
+    // GPURadixSort has O(n * s * w) complexity
     // n : number of data
+    // s : size of data struct
     // w : number of bits
 
     public void Sort(GraphicsBuffer dataBuffer, uint maxValue = uint.MaxValue)
