@@ -111,9 +111,11 @@ public class SortSample : MonoBehaviour
         uint[] dataArr2 = new uint[_numData];
 
         Random.InitState(_randomSeed);
+        uint sum1 = 0;
         for (uint i = 0; i < _numData; i++)
         {
             uint value = (uint)Random.Range(0, (int)_randomValueMax + 1);
+            sum1 += value;
             dataArr1[i] = value;
         }
         _tempBuffer.SetData(dataArr1);
@@ -127,7 +129,7 @@ public class SortSample : MonoBehaviour
 
         _copyCS.Dispatch(_kernel, _dispatchSize, 1, 1);
 
-        _prefixScan.Scan(_dataBuffer);
+        uint sum2 = _prefixScan.Scan(_dataBuffer, true);
 
         _dataBuffer.GetData(dataArr2);
         for (int i = 0; i < _numData - 1; i++)
@@ -137,6 +139,11 @@ public class SortSample : MonoBehaviour
                 Debug.LogError("Scanning Failure");
                 break;
             }
+        }
+
+        if (sum1 != sum2)
+        {
+            Debug.LogError("Scanning Failure");
         }
     }
 

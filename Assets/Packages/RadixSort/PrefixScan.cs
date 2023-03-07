@@ -12,9 +12,12 @@ public class PrefixScan
     // buffers to store the sum of values within local groups
     // size: number of groups
     private List<GraphicsBuffer> _groupSumBufferList = new();
-    // dummy buffer
+    // buffer to store the total sum of values
     // size: 1
-    private GraphicsBuffer _dummyGroupSumBuffer;
+    private GraphicsBuffer _totalSumBuffer;
+
+    private uint _totalSum = 0;
+    private bool _returnTotalSum = false;
 
     private bool _inited = false;
 
@@ -24,7 +27,7 @@ public class PrefixScan
         _kernelPrefixScan = _prefixScanCS.FindKernel("PrefixScan");
         _kernelAddGroupSum = _prefixScanCS.FindKernel("AddGroupSum");
 
-        _dummyGroupSumBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, sizeof(uint));
+        _totalSumBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, sizeof(uint));
 
         _inited = true;
     }
@@ -34,9 +37,17 @@ public class PrefixScan
 
     // dataBuffer
     // : data<uint> buffer to be scaned
-    public void Scan(GraphicsBuffer dataBuffer)
+    // returnTotalSum
+    // : whether this function should return the total sum of values
+    // return value
+    // : the total sum of values (only when returnTotalSum is true)
+    public uint Scan(GraphicsBuffer dataBuffer, bool returnTotalSum = false)
     {
+        _returnTotalSum = returnTotalSum;
+
         Scan(dataBuffer, 0);
+
+        return _totalSum;
     }
 
     private void Scan(GraphicsBuffer dataBuffer, int bufferIndex)
@@ -86,8 +97,15 @@ public class PrefixScan
             cs.SetInt("num_elements", numGroups);
             cs.SetInt("group_offset", 0);
             cs.SetBuffer(k_scan, "data_buffer", groupSumBuffer);
-            cs.SetBuffer(k_scan, "group_sum_buffer", _dummyGroupSumBuffer);
+            cs.SetBuffer(k_scan, "group_sum_buffer", _totalSumBuffer);
             cs.Dispatch(k_scan, 1, 1, 1);
+
+            if (_returnTotalSum)
+            {
+                uint[] totalSumArr = new uint[1];
+                _totalSumBuffer.GetData(totalSumArr);
+                _totalSum = totalSumArr[0];
+            }
         }
         // execute this function recursively
         else
@@ -137,6 +155,6 @@ public class PrefixScan
     {
         foreach (var groupSumBuffer in _groupSumBufferList)
             groupSumBuffer?.Release();
-        _dummyGroupSumBuffer?.Release();
+        _totalSumBuffer?.Release();
     }
 }
