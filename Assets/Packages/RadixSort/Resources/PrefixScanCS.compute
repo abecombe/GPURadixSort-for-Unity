@@ -21,6 +21,7 @@ RWStructuredBuffer<uint> group_sum_buffer;
 
 int num_elements;
 int group_offset;
+int group_sum_offset;
 
 static const int num_group_threads = NUM_GROUP_THREADS;
 static const int num_elements_per_group = 2 * NUM_GROUP_THREADS;
@@ -70,7 +71,7 @@ void PrefixScan(int group_thread_id : SV_GroupThreadID, int group_id : SV_GroupI
     // save the total sum on global memory
     if (group_thread_id == 0)
     {
-        group_sum_buffer[group_id + group_offset] = s_scan[num_elements_per_group_1 + CONFLICT_FREE_OFFSET(num_elements_per_group_1)];
+        group_sum_buffer[group_id + group_offset + group_sum_offset] = s_scan[num_elements_per_group_1 + CONFLICT_FREE_OFFSET(num_elements_per_group_1)];
         s_scan[num_elements_per_group_1 + CONFLICT_FREE_OFFSET(num_elements_per_group_1)] = 0;
     }
 

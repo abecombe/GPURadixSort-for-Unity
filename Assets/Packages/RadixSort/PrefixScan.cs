@@ -17,7 +17,6 @@ public class PrefixScan
     private GraphicsBuffer _totalSumBuffer;
 
     private uint _totalSum = 0;
-    private bool _returnTotalSum = false;
 
     private bool _inited = false;
 
@@ -43,16 +42,27 @@ public class PrefixScan
     // : the total sum of values (only when returnTotalSum is true)
     public uint Scan(GraphicsBuffer dataBuffer, bool returnTotalSum = false)
     {
-        _returnTotalSum = returnTotalSum;
-
-        Scan(dataBuffer, 0);
+        Scan(dataBuffer, null, 0, returnTotalSum);
 
         return _totalSum;
     }
 
-    private void Scan(GraphicsBuffer dataBuffer, int bufferIndex)
+    // dataBuffer
+    // : data<uint> buffer to be scaned
+    // totalSumBuffer
+    // : data<uint> buffer to store the total sum
+    // bufferOffset
+    // : index of the element in the totalSumBuffer to store the total sum
+    public void Scan(GraphicsBuffer dataBuffer, GraphicsBuffer totalSumBuffer, uint bufferOffset)
+    {
+        Scan(dataBuffer, totalSumBuffer, bufferOffset, false);
+    }
+
+    private void Scan(GraphicsBuffer dataBuffer, GraphicsBuffer totalSumBuffer, uint bufferOffset, bool returnTotalSum, int bufferIndex = 0)
     {
         if (!_inited) Init();
+
+        if (totalSumBuffer == null) totalSumBuffer = _totalSumBuffer;
 
         var cs = _prefixScanCS;
         var k_scan = _kernelPrefixScan;
@@ -85,6 +95,7 @@ public class PrefixScan
         cs.SetInt("num_elements", numElements);
         cs.SetBuffer(k_scan, "data_buffer", dataBuffer);
         cs.SetBuffer(k_scan, "group_sum_buffer", groupSumBuffer);
+        cs.SetInt("group_sum_offset", 0);
         for (int i = 0; i < numGroups; i += _max_dispatch_size)
         {
             cs.SetInt("group_offset", i);
@@ -97,20 +108,21 @@ public class PrefixScan
             cs.SetInt("num_elements", numGroups);
             cs.SetInt("group_offset", 0);
             cs.SetBuffer(k_scan, "data_buffer", groupSumBuffer);
-            cs.SetBuffer(k_scan, "group_sum_buffer", _totalSumBuffer);
+            cs.SetBuffer(k_scan, "group_sum_buffer", totalSumBuffer);
+            cs.SetInt("group_sum_offset", (int)bufferOffset);
             cs.Dispatch(k_scan, 1, 1, 1);
 
-            if (_returnTotalSum)
+            if (returnTotalSum)
             {
                 uint[] totalSumArr = new uint[1];
-                _totalSumBuffer.GetData(totalSumArr);
+                totalSumBuffer.GetData(totalSumArr);
                 _totalSum = totalSumArr[0];
             }
         }
         // execute this function recursively
         else
         {
-            Scan(groupSumBuffer, bufferIndex + 1);
+            Scan(groupSumBuffer, totalSumBuffer, bufferOffset, returnTotalSum, bufferIndex + 1);
         }
 
         // add each group's total sum to its scan output
