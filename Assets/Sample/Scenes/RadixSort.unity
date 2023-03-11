@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 544217969}
   - component: {fileID: 544217970}
   m_Layer: 0
-  m_Name: RadixSort / PrefixScan
+  m_Name: RadixSort
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,13 +164,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 544217967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad86b9858b69a1a4fb56ad571c004588, type: 3}
+  m_Script: {fileID: 11500000, guid: 46fd7987664b94a4bb37bb5ed694661f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _numData: 1000000
   _randomValueMax: 500000
   _randomSeed: 0
-  _testCase: 0
 --- !u!1 &754477575
 GameObject:
   m_ObjectHideFlags: 0

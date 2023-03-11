@@ -1,10 +1,8 @@
 ﻿#pragma kernel CopySortBuffer
 #pragma kernel CopyScanBuffer
 
-#include "Assets/Packages/RadixSort/Resources/CustomDefinition.hlsl"
-
-StructuredBuffer<DATA_TYPE> sort_temp_buffer;
-RWStructuredBuffer<DATA_TYPE> sort_data_buffer;
+StructuredBuffer<uint2> sort_temp_buffer;
+RWStructuredBuffer<uint2> sort_data_buffer;
 
 StructuredBuffer<uint> scan_temp_buffer;
 RWStructuredBuffer<uint> scan_data_buffer;
