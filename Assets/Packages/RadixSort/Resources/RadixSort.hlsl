@@ -19,17 +19,17 @@ static const int num_elements_per_group = NUM_GROUP_THREADS;
 static const int log_num_elements_per_group = log2(num_elements_per_group);
 static const int num_elements_per_group_1 = num_elements_per_group - 1;
 
-static const int  n_way = 4;
-static const int  n_way_1 = n_way - 1;
+static const int n_way = 4;
+static const int n_way_1 = n_way - 1;
 static const int4 n_way_arr = int4(0, 1, 2, 3);
 
-static const int s_data_len     = num_elements_per_group;
-static const int s_scan_len     = num_elements_per_group + 1;
-static const int s_Pd_len       = n_way;
+static const int s_data_len = num_elements_per_group;
+static const int s_scan_len = num_elements_per_group;
+static const int s_Pd_len = n_way;
 
 groupshared DATA_TYPE s_data[s_data_len];
 groupshared uint4 s_scan[s_scan_len];
-groupshared uint  s_Pd[s_Pd_len];
+groupshared uint s_Pd[s_Pd_len];
 
 // sort input data locally and output first-index / sums of each 2bit key-value within groups
 [numthreads(NUM_GROUP_THREADS, 1, 1)]

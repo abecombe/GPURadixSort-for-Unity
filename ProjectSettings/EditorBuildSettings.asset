@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Sample/Scenes/RadixSort.unity
     guid: 70da4ee9a8e4456439a229f50ffaeaeb
+  - enabled: 0
+    path: Assets/Sample/Scenes/Filtering.unity
+    guid: a900a9c6ebe932b46b4b344abf5f86db
+  - enabled: 0
+    path: Assets/Sample/Scenes/PrefixScan.unity
+    guid: aed817006e0aa274eb46f39c1e5ce4e2
   m_configObjects: {}
