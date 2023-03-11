@@ -24,8 +24,8 @@ public class SortSample : MonoBehaviour
     private GraphicsBuffer _dataBuffer;
     private GraphicsBuffer _tempBuffer;
 
-    private RadixSort<uint2> _radixSort = new();
-    private PrefixScan _prefixScan = new();
+    private GPURadixSort<uint2> _radixSort = new();
+    private GPUPrefixScan _prefixScan = new();
 
     private ComputeShader _copyCS;
     private int _kernel;

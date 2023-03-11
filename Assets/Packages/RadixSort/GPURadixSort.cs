@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class RadixSort<T>
+public class GPURadixSort<T>
 {
     private static readonly int _numGroupThreads = 128;
     private static readonly int _numElementsPerGroup = _numGroupThreads;
@@ -12,7 +12,7 @@ public class RadixSort<T>
     private int _kernelRadixSortLocal;
     private int _kernelGlobalShuffle;
 
-    private PrefixScan _prefixScan = new();
+    private GPUPrefixScan _prefixScan = new();
 
     // buffer to store the locally sorted input data
     // size: number of data

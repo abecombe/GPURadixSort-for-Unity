@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class PrefixScan
+public class GPUPrefixScan
 {
     private static readonly int _max_dispatch_size = 65535;
 
