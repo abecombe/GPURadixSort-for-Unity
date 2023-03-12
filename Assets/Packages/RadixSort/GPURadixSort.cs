@@ -28,7 +28,7 @@ namespace Abecombe.GPUBufferOperator
 
         private bool _inited = false;
 
-        protected void LoadComputeShader()
+        protected virtual void LoadComputeShader()
         {
             _radixSortCS = Resources.Load<ComputeShader>("RadixSortCS");
         }

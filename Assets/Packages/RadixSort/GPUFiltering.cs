@@ -28,7 +28,7 @@ namespace Abecombe.GPUBufferOperator
 
         private bool _inited = false;
 
-        protected void LoadComputeShader()
+        protected virtual void LoadComputeShader()
         {
             _filteringCS = Resources.Load<ComputeShader>("FilteringCS");
         }
