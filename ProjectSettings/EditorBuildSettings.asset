@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Sample/Scenes/PrefixScan.unity
     guid: aed817006e0aa274eb46f39c1e5ce4e2
+  - enabled: 0
+    path: Assets/Sample/Scenes/CustomRadixSort.unity
+    guid: 6e433997619149349a52198d6544555b
   m_configObjects: {}
