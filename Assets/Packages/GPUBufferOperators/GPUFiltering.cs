@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace Abecombe.GPUBufferOperator
+namespace Abecombe.GPUBufferOperators
 {
     public class GPUFiltering<T>
     {

@@ -1,4 +1,4 @@
-using Abecombe.GPUBufferOperator;
+using Abecombe.GPUBufferOperators;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using UnityEngine;

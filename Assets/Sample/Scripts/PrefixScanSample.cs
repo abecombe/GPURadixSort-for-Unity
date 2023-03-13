@@ -1,4 +1,4 @@
-using Abecombe.GPUBufferOperator;
+using Abecombe.GPUBufferOperators;
 using UnityEngine;
 
 using Random = UnityEngine.Random;

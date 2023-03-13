@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Abecombe.GPUBufferOperator
+namespace Abecombe.GPUBufferOperators
 {
     public class GPUPrefixScan
     {
